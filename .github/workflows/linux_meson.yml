@@ -1,6 +1,7 @@
 name: Test Meson build (Linux)
 
 on:
+  push: null
   pull_request:
     branches:
       - main
@@ -22,7 +23,7 @@ permissions:
 
 jobs:
   meson_spin:
-    if: "github.repository == 'numpy/numpy'"
+    if: "github.repository == 'honno/numpy'"
     runs-on: ubuntu-latest
     strategy:
       matrix:
