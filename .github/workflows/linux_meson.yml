@@ -60,6 +60,15 @@ jobs:
     - name: Check build-internal dependencies
       run:
         ninja -C build -t missingdeps
+    - name: Check OpenBLAS version
+      run: |
+        if [[ $USE_NIGHTLY_OPENBLAS == "true" ]]; then
+          expected_version="nightly"
+        else
+          expected_version=""
+        fi
+        spin python -m pip install threadpoolctl
+        spin python tools/openblas_support.py --check_version $expected_version
     - name: Check installed test and stub files
       run:
         python tools/check_installed_files.py $(find ./build-install -path '*/site-packages/numpy')

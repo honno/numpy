@@ -327,11 +327,19 @@ def test_version(expected_version=None):
     import threadpoolctl
 
     data = threadpoolctl.threadpool_info()
+    print(f"{data=}")
+    print(f"{data[0]['version']=}")
     if len(data) != 1:
         raise ValueError(f"expected single threadpool_info result, got {data}")
     if not expected_version:
         expected_version = OPENBLAS_V
-    if data[0]['version'] != expected_version:
+    if expected_version == "nightly":
+        if data[0]['version'] == OPENBLAS_V:
+          raise ValueError(
+              f"nightly OpenBLAS version should not be {OPENBLAS_V}, "
+              f"got {data}"
+          )
+    elif data[0]['version'] != expected_version:
         raise ValueError(
             f"expected OpenBLAS version {expected_version}, got {data}"
         )
